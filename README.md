@@ -46,6 +46,27 @@ In OpenLANE flow this is achieved using `run_synthesis` command which runs a com
 
 ## Day 2 - Good floorplan vs bad floorplan and introduction to library cells
 
+### Floorplanning
+
+In OpenLANE flow, flooplanning is done using `run_floorplan` command which fixes the location of any pre-placed cells (like memories, analog IPs, etc. alongwith the physical-only cells like De-Coupling capacitors, Endcap cells, Tap cells, etc.) in the defined design core. IO pin location is also fixed during this step. Additionally the power mesh (power distribution network) is built while floorplanning.
+The designer must take into consideration multiple factors (technology specific as well as design specific) while defining different set of parameters which control the floorplan for a design. This might become an iterative process since floorplan is a very critical step of the PnR flow.
+
+
+  * To review floorplan in GUI form `magic` tool can be used
+```
+## For DEF with pre-placed cells and pins placed
+magic -T $PDK_ROOT/sky130A/libs.tech/magic/sky130A.tech lef read tmp/merged.lef def read results/floorplan/picorv32a.floorplan.def &
+
+## For DEF with pre-placed cells, pins placed and the PDN
+magic -T $PDK_ROOT/sky130A/libs.tech/magic/sky130A.tech lef read tmp/merged.lef def read tmp/floorplan/12-pdn.def &
+```
+![Floorplan with PDN - Full view](https://user-images.githubusercontent.com/32140302/183156086-79544904-9df1-4ae8-b965-0a60d3e996d3.jpg)
+
+![Floorplan with PDN - Zoomed In](https://user-images.githubusercontent.com/32140302/183156090-185e90d5-9ace-44df-9c6d-c84b4e7a02a8.jpg)
+
+### Placement
+
+
 
 ## Day 3 - Design library cell using Magic Layout and ngspice characterization
 
