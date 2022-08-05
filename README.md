@@ -37,7 +37,12 @@ prep -design picorv32a
 
 ### Synthesis
 
+In OpenLANE flow this is achieved using `run_synthesis` command which runs a combination of 3 tools to build a gate-level optimized netlist from the RTL. 
+  * abc - technology mapping
+  * yosys - rtl synthesis
+  * opensta - timing analysis of the generated netlist
 
+![Synthesis stats](https://user-images.githubusercontent.com/32140302/183127043-a95b14f3-86b0-4ecc-829e-1aedf2c41674.jpg)
 
 ## Day 2 - Good floorplan vs bad floorplan and introduction to library cells
 
