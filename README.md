@@ -66,6 +66,12 @@ magic -T $PDK_ROOT/sky130A/libs.tech/magic/sky130A.tech lef read tmp/merged.lef 
 
 ### Placement
 
+In OpenLANE flow, placement is done using `run_placement` command which optimizes the netlist and places the standard cells. The main focus in this flow is to reduce Half-Parameter Wire Length and the objective is to decrease the value of overflow.
+There are multiple options available using which design optimization at placement stage can be controlled. Like we can control if the placer be timing driven and/or routability driven. Also we can set a target placement density to control cell spread in the core. The designer can control if and how driver resizing should take place.
+
+![Placement - DEF View](https://user-images.githubusercontent.com/32140302/183212744-9fc579f5-4c2c-4fde-8fd4-d93ea94e19e3.jpg)
+
+![Placement Stats](https://user-images.githubusercontent.com/32140302/183212765-c06df61b-aa1b-414c-bcf3-71bffa9bfe30.jpg)
 
 
 ## Day 3 - Design library cell using Magic Layout and ngspice characterization
