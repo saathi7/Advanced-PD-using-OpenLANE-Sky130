@@ -76,6 +76,16 @@ There are multiple options available using which design optimization at placemen
 
 ## Day 3 - Design library cell using Magic Layout and ngspice characterization
 
+### CMOS Inverter in Magic
+
+For the purpose of this lab, we are using a custom cell layout of CMOS Inverter already created by Nickson Jose and we use it perform spice extractions and post-layout spice simulations.
+The required lib files and .mag file are cloned into our workspace via the git repository https://github.com/nickson-jose/vsdstdcelldesign and also copied the magic tech file in our workspace for ease of access. The inverter is now ready to be loaded in magic GUI.
+
+![CMOS Inv - setup](https://user-images.githubusercontent.com/32140302/183227344-bbcee9db-4327-417f-afea-69e285d61f2c.jpg)
+
+![CMOS Inv - magic](https://user-images.githubusercontent.com/32140302/183227437-17840df3-9fbe-4f41-baa0-7ff8a0a302e1.jpg)
+
+
 
 ## Day 4 - Pre-layout timing analysis and importance of good clock tree
 
