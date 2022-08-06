@@ -89,10 +89,31 @@ Magic tool's interactive DRC mode makes creation of any new cell layout very con
 ### Extracting SPICE Netlist from Cell Layout
 
 First an extraction file `sky130_inv.ext` is created using `extract all`
+
 ![sky130_inv_ext](https://user-images.githubusercontent.com/32140302/183232196-fb443b9c-2237-4e77-973c-61c77d40fc03.jpg)
 
 Then a spice model `sky130_inv.spice` with parasitic values is created by running `ext2spice cthresh 0 rthresh 0` followed by the command `ext2spice` .
+
 ![sky130_inv_spice](https://user-images.githubusercontent.com/32140302/183232197-32b12da7-15b8-4cad-97fe-a62ad09ec30a.jpg)
+
+
+### Transient Analysis and Cell Characterization using NGSPICE
+
+Before doing the transient analysis, we need to build a spice deck from the spice model file by adding the power connections, adding transient input signals and defining the parameters for required analysis.
+
+![spice deck](https://user-images.githubusercontent.com/32140302/183233939-1a915443-e606-42c6-afc7-3c8d0a50207b.jpg)
+
+Now we load this updated spice deck in ngspice using the command `ngspice sky130_inv.spice` and inverter input/output vs time plot is obtained using `plot y vs time A` .
+This plot can now be used to calculate the cell characteristics.
+
+*** Transition<sub>rise</sub> = 58.32ps ***
+*** Transition<sub>fall</sub> = -42.92ps ***
+*** PropagationDelay<sub>rise</sub> = 56.43ps ***
+*** PropagationDelay<sub>fall</sub> = 24.73ps ***
+
+![ngspice](https://user-images.githubusercontent.com/32140302/183233937-f626c365-9991-4c27-af65-562b66e6ae21.jpg)
+
+![transient analysis plot](https://user-images.githubusercontent.com/32140302/183233940-48e32da4-37ff-4924-a22e-b8add3c0a75f.jpg)
 
 
 ## Day 4 - Pre-layout timing analysis and importance of good clock tree
