@@ -80,11 +80,19 @@ There are multiple options available using which design optimization at placemen
 
 For the purpose of this lab, we are using a custom cell layout of CMOS Inverter already created by Nickson Jose and we use it perform spice extractions and post-layout spice simulations.
 The required lib files and .mag file are cloned into our workspace via the git repository https://github.com/nickson-jose/vsdstdcelldesign and also copied the magic tech file in our workspace for ease of access. The inverter is now ready to be loaded in magic GUI.
+Magic tool's interactive DRC mode makes creation of any new cell layout very convenient.
 
 ![CMOS Inv - setup](https://user-images.githubusercontent.com/32140302/183227344-bbcee9db-4327-417f-afea-69e285d61f2c.jpg)
 
 ![CMOS Inv - magic](https://user-images.githubusercontent.com/32140302/183227437-17840df3-9fbe-4f41-baa0-7ff8a0a302e1.jpg)
 
+### Extracting SPICE Netlist from Cell Layout
+
+First an extraction file `sky130_inv.ext` is created using `extract all`
+![sky130_inv_ext](https://user-images.githubusercontent.com/32140302/183232196-fb443b9c-2237-4e77-973c-61c77d40fc03.jpg)
+
+Then a spice model `sky130_inv.spice` with parasitic values is created by running `ext2spice cthresh 0 rthresh 0` followed by the command `ext2spice` .
+![sky130_inv_spice](https://user-images.githubusercontent.com/32140302/183232197-32b12da7-15b8-4cad-97fe-a62ad09ec30a.jpg)
 
 
 ## Day 4 - Pre-layout timing analysis and importance of good clock tree
