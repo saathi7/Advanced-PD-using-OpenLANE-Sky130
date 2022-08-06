@@ -112,7 +112,7 @@ This plot can now be used to calculate the cell characteristics.
 
 ***PropagationDelay<sub>rise</sub> = 56.43ps***
 
-***PropagationDelay<sub>fall</sub> = 24.73ps***
+***PropagationDelay<sub>fall</sub> = 24.8ps***
 
 ![ngspice](https://user-images.githubusercontent.com/32140302/183233937-f626c365-9991-4c27-af65-562b66e6ae21.jpg)
 
