@@ -106,10 +106,13 @@ Before doing the transient analysis, we need to build a spice deck from the spic
 Now we load this updated spice deck in ngspice using the command `ngspice sky130_inv.spice` and inverter input/output vs time plot is obtained using `plot y vs time A` .
 This plot can now be used to calculate the cell characteristics.
 
-*** Transition<sub>rise</sub> = 58.32ps ***
-*** Transition<sub>fall</sub> = -42.92ps ***
-*** PropagationDelay<sub>rise</sub> = 56.43ps ***
-*** PropagationDelay<sub>fall</sub> = 24.73ps ***
+***Transition<sub>rise</sub> = 58.32ps***
+
+***Transition<sub>fall</sub> = -42.92ps***
+
+***PropagationDelay<sub>rise</sub> = 56.43ps***
+
+***PropagationDelay<sub>fall</sub> = 24.73ps***
 
 ![ngspice](https://user-images.githubusercontent.com/32140302/183233937-f626c365-9991-4c27-af65-562b66e6ae21.jpg)
 
