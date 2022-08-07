@@ -330,11 +330,15 @@ report_wns
 Again with our custom cell synthesized netlist we do floorplanning and placement.
 
 ```
-### since faced error running floorplan with run_floorplan, we run floorplan interactively
+### since faced error running floorplan with run_floorplan, we run floorplan interactively referring the steps from scripts/tcl_commands/floorplan.tcl
 init_floorplan
 place_io
+apply_def_template
+global_placement_or
+basic_macro_placement
 tap_decap_or
-gen_pdn
+scrot_klayout -layout $::env(CURRENT_DEF)
+run_power_grid_generation
 
 ### placement
 run_placement
