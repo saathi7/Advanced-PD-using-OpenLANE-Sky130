@@ -393,12 +393,12 @@ Although the updated OpenLANE flow, automatically generates the SPEF file if nee
 
 ## Acknowledgements
 
-  * ![Kunal Ghosh](https://github.com/kunalg123)
-  * ![Nickson Jose](https://github.com/nickson-jose)
-  * ![Google Sky130](https://github.com/google/skywater-pdk)
-  * ![Efabless](https://github.com/efabless)
-  * ![OpenLANE](https://github.com/The-OpenROAD-Project/OpenLane)
-  * ![OpenROAD](https://github.com/The-OpenROAD-Project)
-  * ![Yosys - picorv32a](https://github.com/YosysHQ/picorv32)
+  * [Kunal Ghosh](https://github.com/kunalg123)
+  * [Nickson Jose](https://github.com/nickson-jose)
+  * [Google Sky130](https://github.com/google/skywater-pdk)
+  * [Efabless](https://github.com/efabless)
+  * [OpenLANE](https://github.com/The-OpenROAD-Project/OpenLane)
+  * [OpenROAD](https://github.com/The-OpenROAD-Project)
+  * [Yosys - picorv32a](https://github.com/YosysHQ/picorv32)
 
 
