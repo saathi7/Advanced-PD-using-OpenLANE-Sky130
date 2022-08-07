@@ -261,7 +261,13 @@ run_synthesis
 
 As per the design requirements, we can play around with multiple options/parameters provided in the OpenLANE flow and fine tune our QOR (quality of results).
 
-For a trial, 
+For a trial, I updated one such setting. Although timing improved with this startegy but area bloat is seen, which shows the classic trade-off between timing and area.
+Considering such PPA (power performance area) trade-offs, a designer has to build custom startegies for each design.
+
+![synthesis2](https://user-images.githubusercontent.com/32140302/183284066-b7f91465-bd0e-4487-80b7-7a455f12c1f1.jpg)
+
+![synthesis2 stats](https://user-images.githubusercontent.com/32140302/183284065-c4ca229c-33dd-44e2-915e-77e7920055d7.jpg)
+
 
 
 ## Day 5 - Final steps for RTL2GDS using tritonRoute and openSTA
