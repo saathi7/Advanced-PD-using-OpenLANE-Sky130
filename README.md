@@ -325,6 +325,27 @@ report_wns
 
 ![synth sta](https://user-images.githubusercontent.com/32140302/183287035-cde0c36d-ed8f-4202-af15-654fcb9132ac.jpg)
 
+### Floorplan & Placement
+
+Again with our custom cell synthesized netlist we do floorplanning and placement.
+
+```
+### since faced error running floorplan with run_floorplan, we run floorplan interactively
+init_floorplan
+place_io
+tap_decap_or
+gen_pdn
+
+### placement
+run_placement
+```
+
+![placement2 stats](https://user-images.githubusercontent.com/32140302/183289836-d65bcb1e-eaa1-4325-b5f2-ad16b69c49d5.jpg)
+
+
+### Clock Tree Synthesis
+
+CTS is the backbone of any design as it ensures that clock is distributed to all sequential elements properly with minimal clock skew. This is done in OpenLANE flow by TritonCTS and the command is `run_cts` .
 
 
 
