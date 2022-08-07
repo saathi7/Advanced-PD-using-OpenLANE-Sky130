@@ -268,6 +268,64 @@ Considering such PPA (power performance area) trade-offs, a designer has to buil
 
 ![synthesis2 stats](https://user-images.githubusercontent.com/32140302/183284065-c4ca229c-33dd-44e2-915e-77e7920055d7.jpg)
 
+### Performing Synthesis STA
+
+For running sta using OpenSTA, we first need to create a SDC `my_base.sdc` with same values as used in our synthesis runs and create a configuration file `pre_sta.conf`. Now sta can be performed using `sta pre_sta.conf` .
+
+
+```
+## my_base.sdc
+
+
+set ::env(CLOCK_PORT) clk
+set ::env(CLOCK_PERIOD) 24.73
+set ::env(SYNTH_DRIVING_CELL) sky130_fd_sc_hd__inv_8
+set ::env(SYNTH_DRIVING_CELL_PIN) Y
+set ::env(SYNTH_CAP_LOAD) 17.65
+create_clock [get_ports $::env(CLOCK_PORT)]  -name $::env(CLOCK_PORT)  -period $::env(CLOCK_PERIOD)
+set IO_PCT  0.2
+set input_delay_value [expr $::env(CLOCK_PERIOD) * $IO_PCT]
+set output_delay_value [expr $::env(CLOCK_PERIOD) * $IO_PCT]
+puts "\[INFO\]: Setting output delay to: $output_delay_value"
+puts "\[INFO\]: Setting input delay to: $input_delay_value"
+
+
+set clk_indx [lsearch [all_inputs] [get_port $::env(CLOCK_PORT)]]
+#set rst_indx [lsearch [all_inputs] [get_port resetn]]
+set all_inputs_wo_clk [lreplace [all_inputs] $clk_indx $clk_indx]
+#set all_inputs_wo_clk_rst [lreplace $all_inputs_wo_clk $rst_indx $rst_indx]
+set all_inputs_wo_clk_rst $all_inputs_wo_clk
+
+
+# correct resetn
+set_input_delay $input_delay_value  -clock [get_clocks $::env(CLOCK_PORT)] $all_inputs_wo_clk_rst
+#set_input_delay 0.0 -clock [get_clocks $::env(CLOCK_PORT)] {resetn}
+set_output_delay $output_delay_value  -clock [get_clocks $::env(CLOCK_PORT)] [all_outputs]
+
+# TODO set this as parameter
+set_driving_cell -lib_cell $::env(SYNTH_DRIVING_CELL) -pin $::env(SYNTH_DRIVING_CELL_PIN) [all_inputs]
+set cap_load [expr $::env(SYNTH_CAP_LOAD) / 1000.0]
+puts "\[INFO\]: Setting load to: $cap_load"
+set_load  $cap_load [all_outputs]
+```
+
+```
+## pre_sta.conf
+
+set_cmd_units -time ns -capacitance pF -current mA -voltage V -resistance kOhm -distance um
+read_liberty -min /home/sharmasarthak96/Desktop/work/tools/openlane_working_dir/openlane/designs/picorv32a/src/sky130_fd_sc_hd__fast.lib
+read_liberty -max /home/sharmasarthak96/Desktop/work/tools/openlane_working_dir/openlane/designs/picorv32a/src/sky130_fd_sc_hd__slow.lib
+read_verilog /home/sharmasarthak96/Desktop/work/tools/openlane_working_dir/openlane/designs/picorv32a/runs/07-08_06-58/results/synthesis/picorv32a.synthesis.v
+link_design picorv32a
+read_sdc /home/sharmasarthak96/Desktop/work/tools/openlane_working_dir/openlane/designs/picorv32a/src/my_base.sdc
+report_checks -path_delay min_max -fields {slew trans net cap input_pin}
+report_tns
+report_wns
+```
+
+![synth sta](https://user-images.githubusercontent.com/32140302/183287035-cde0c36d-ed8f-4202-af15-654fcb9132ac.jpg)
+
+
 
 
 ## Day 5 - Final steps for RTL2GDS using tritonRoute and openSTA
