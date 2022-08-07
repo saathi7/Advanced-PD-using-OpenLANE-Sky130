@@ -351,7 +351,36 @@ run_placement
 
 CTS is the backbone of any design as it ensures that clock is distributed to all sequential elements properly with minimal clock skew. This is done in OpenLANE flow by TritonCTS and the command is `run_cts` .
 
+![cts stats 1](https://user-images.githubusercontent.com/32140302/183300868-dd668569-6412-4f0d-893b-df028301e684.jpg)
 
+```
+## For post-CTS STA using openroad
+## **CTS tree in TritonCTS is built considering single corner at a time (typical by default). Hence may see timing violations at slow/fast corners.**
+
+openroad
+read_lef /openLANE_flow/designs/picorv32a/runs/07-08_06-58/tmp/merged.lef
+read_def /openLANE_flow/designs/picorv32a/runs/07-08_06-58/results/cts/picorv32a.cts.def
+write_db picorv32a_cts.db
+read_db picorv32a_cts.db
+
+read_verilog /openLANE_flow/designs/picorv32a/runs/07-08_06-58/results/synthesis/picorv32a.synthesis_cts.v
+read_liberty $::env(LIB_SYNTH_COMPLETE)
+### read_liberty -min $::env(LIB_FASTEST)
+### read_liberty -max $::env(LIB_SLOWEST)
+
+link_design picorv32a
+
+read_sdc /openLANE_flow/designs/picorv32a/src/my_base.sdc
+
+set_propagated_clock [all_clocks]
+
+report_checks -path_delay min_max -fields {slew trans net cap input_pin} -format full_clock_expanded >> /openLANE_flow/designs/picorv32a/runs/07-08_06-58/reports/cts/cts_timing.openroad.typical.rpt
+
+```
+
+![cts stats 2](https://user-images.githubusercontent.com/32140302/183300867-a552bb0a-5fd5-49e0-bab2-064cc0dc1fa4.jpg)
 
 ## Day 5 - Final steps for RTL2GDS using tritonRoute and openSTA
+
+### Routing
 
