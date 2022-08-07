@@ -257,7 +257,11 @@ run_synthesis
 
 ![updated Synthesis stats](https://user-images.githubusercontent.com/32140302/183280732-a7b0b4f6-36a6-476a-a43b-ffed677d9fc1.jpg)
 
+### Synthesis Strategy
 
+As per the design requirements, we can play around with multiple options/parameters provided in the OpenLANE flow and fine tune our QOR (quality of results).
+
+For a trial, 
 
 
 ## Day 5 - Final steps for RTL2GDS using tritonRoute and openSTA
