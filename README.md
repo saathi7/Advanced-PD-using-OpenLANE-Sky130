@@ -221,5 +221,44 @@ END sky130_ssinv
 END LIBRARY
 ```
 
+### Synthesizing with Custom Inverter
+
+In order to use this cell in our OpenLANE flow, we need to add the related libs and LEF in our flow.
+
+```
+## while in your openlane directory follow the below steps
+## copy the LEF we just created
+cp -f vsdstdcelldesign/sky130_ssinv.lef designs/picorv32a/src/.
+## copy the lib files containing the cell characterizations at different corners (these can be created using GUNA)
+cp -f vsdstdcelldesign/libs/sky130_fd_sc_hd__* designs/picorv32a/src/.
+## update our custom inverter name in the libs we just copied
+sed -i -E 's,sky130_vsdinv,sky130_ssinv,g' designs/picorv32a/src/sky130_fd_sc_hd__*
+```
+Next we need to update the onfiguration file for our design so that our custom LEF and libs are read in the OpenLANE flow.
+
+![updated config file](https://user-images.githubusercontent.com/32140302/183280731-b1b88abc-6fd4-4b5e-8a6c-824508e72466.jpg)
+
+Now we can setup the OpenLANE flow and run synthesis to check if our custom cell is now picked in the flow or not.
+
+```
+## setup flow
+docker
+./flow.tcl -interactive
+package require openlane 0.9
+prep -design picorv32a -tag 07-08_06-58 -overwrite
+
+## ensure custom lef is read in the flow
+set lefs [glob $::env(DESIGN_DIR)/src/*.lef]
+add_lefs -src $lefs
+
+## synthesize the design
+run_synthesis
+```
+
+![updated Synthesis stats](https://user-images.githubusercontent.com/32140302/183280732-a7b0b4f6-36a6-476a-a43b-ffed677d9fc1.jpg)
+
+
+
+
 ## Day 5 - Final steps for RTL2GDS using tritonRoute and openSTA
 
