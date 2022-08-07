@@ -121,6 +121,105 @@ This plot can now be used to calculate the cell characteristics.
 
 ## Day 4 - Pre-layout timing analysis and importance of good clock tree
 
+### Creating Std Cell LEF
+
+PnR tool mainly requires just the PR boundary, metal and pin information of any cell to perform optimizations and provide a GDSII file from the input synthesized netlist. This abstracted information to the tool is provided to the tool in form of a LEF (library exchange format) file and it provides sufficient information to the tool to perform routing. Additionally LEF file helps to protect the IP since no cnnectivity information is disclosed.
+
+For each technology, tracks information is provided by the foundary and they are necessary because routes for each layer can only go over their respective tracks.
+
+![tracks](https://user-images.githubusercontent.com/32140302/183273661-5c3e4b38-b02f-4cd3-90db-4529e3101196.jpg)
+
+There are many guidelines need to be taken care of when generating LEF for any cell in order to ensure routability of the design and avoid any DRCs :
+  * Input nd output ports must lie on the intersection of the intersection of the vertical and horizontal tracks.
+  * Width of the cell should be an odd multiple of x-pitch of the layer.
+  * Height of the cell should be an odd multiple of the y-pitch of the layer.
+  * All cell ports (pins) have proper definition (layer, direction, usage etc)
+
+In magic, we set the grid size according to track info to ensure cell alignment is proper.
+
+```
+grid 0.46um 0.34um 0.23um 0.17um
+```
+
+![grid](https://user-images.githubusercontent.com/32140302/183273664-049c6198-868b-47e2-97ec-b323e60327c5.jpg)
+
+Then we need to ensure that all ports have proper port definitions.
+
+![portA](https://user-images.githubusercontent.com/32140302/183274723-fb375c6a-6ebc-4d53-94ea-d991ce91d627.jpg)
+![portY](https://user-images.githubusercontent.com/32140302/183274722-1a4d04d5-c4f5-4da5-96d5-d131acffb9fa.jpg)
+![portVDD](https://user-images.githubusercontent.com/32140302/183274724-3152bb46-683e-4c10-8536-11efab8b7f40.jpg)
+![portVSS](https://user-images.githubusercontent.com/32140302/183274725-ef96c71c-7300-4e03-b0af-36d2d06a446c.jpg)
+
+Finally we can write our lef file using `lef write` command.
+
+```
+VERSION 5.7 ;
+  NOWIREEXTENSIONATPIN ON ;
+  DIVIDERCHAR "/" ;
+  BUSBITCHARS "[]" ;
+MACRO sky130_ssinv
+  CLASS CORE ;
+  FOREIGN sky130_ssinv ;
+  ORIGIN 0.000 0.000 ;
+  SIZE 1.380 BY 2.720 ;
+  SITE unithd ;
+  PIN A
+    DIRECTION INPUT ;
+    USE SIGNAL ;
+    ANTENNAGATEAREA 0.165600 ;
+    PORT
+      LAYER li1 ;
+        RECT 0.060 1.180 0.510 1.690 ;
+    END
+  END A
+  PIN Y
+    DIRECTION OUTPUT ;
+    USE SIGNAL ;
+    ANTENNADIFFAREA 0.287800 ;
+    PORT
+      LAYER li1 ;
+        RECT 0.760 1.960 1.100 2.330 ;
+        RECT 0.880 1.690 1.050 1.960 ;
+        RECT 0.880 1.180 1.330 1.690 ;
+        RECT 0.880 0.760 1.050 1.180 ;
+        RECT 0.780 0.410 1.130 0.760 ;
+    END
+  END Y
+  PIN VPWR
+    DIRECTION INOUT ;
+    USE POWER ;
+    PORT
+      LAYER nwell ;
+        RECT -0.200 1.140 1.570 3.040 ;
+      LAYER li1 ;
+        RECT -0.200 2.580 1.430 2.900 ;
+        RECT 0.180 2.330 0.350 2.580 ;
+        RECT 0.100 1.970 0.440 2.330 ;
+      LAYER mcon ;
+        RECT 0.230 2.640 0.400 2.810 ;
+        RECT 1.000 2.650 1.170 2.820 ;
+      LAYER met1 ;
+        RECT -0.200 2.480 1.570 2.960 ;
+    END
+  END VPWR
+  PIN VGND
+    DIRECTION INOUT ;
+    USE GROUND ;
+    PORT
+      LAYER li1 ;
+        RECT 0.100 0.410 0.450 0.760 ;
+        RECT 0.150 0.210 0.380 0.410 ;
+        RECT 0.000 -0.150 1.460 0.210 ;
+      LAYER mcon ;
+        RECT 0.210 -0.090 0.380 0.080 ;
+        RECT 1.050 -0.090 1.220 0.080 ;
+      LAYER met1 ;
+        RECT -0.110 -0.240 1.570 0.240 ;
+    END
+  END VGND
+END sky130_ssinv
+END LIBRARY
+```
 
 ## Day 5 - Final steps for RTL2GDS using tritonRoute and openSTA
 
